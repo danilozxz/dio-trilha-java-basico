@@ -1,13 +1,20 @@
 package candidatura;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.text.DecimalFormat;
 
 public class ProcessoSeletivo {
     public static void main(String[] args) {
-        System.out.println("=== Processo Seletivo ===");
-        selecaoCadidatos();
+        String[] candidatos = { "Danilo", "Sabrina", "Paula", "Rodrigo", "Tiago", "Emerson", "Maria", "Tereza", "Ramon", "Letícia" };
+
+        for(String candidato : candidatos) {
+            entrandoEmContato(candidato);
+        }
+
+        // System.out.println("=== Processo Seletivo ===");
+        // selecaoCadidatos();
     }
 
     static void selecaoCadidatos() {
@@ -34,6 +41,33 @@ public class ProcessoSeletivo {
 
         imprimirSelecionados(cadidatosAprovados);
 
+    }
+
+    static void entrandoEmContato(String candidato) {
+        int tentativasRealizadas = 1;
+        boolean continuarTentando = true;
+        boolean atendeu = false;
+
+        do {
+            atendeu = atender();
+            continuarTentando = !atendeu;
+            if(continuarTentando) {
+                tentativasRealizadas++;
+            } else {
+                System.out.println("Contato realizado com sucesso!");
+            }
+
+        } while (continuarTentando && tentativasRealizadas < 3);
+
+        if(atendeu) {
+            System.out.println("Conseguimos contato com " + candidato + " na " + tentativasRealizadas + "º " + "tentativa.\n");
+        } else {
+            System.out.println("Não conseguimos contato com " + candidato + ", " + tentativasRealizadas + " tentativas foram realizadas.\n");
+        }
+    }
+
+    static boolean atender() {
+        return new Random().nextInt(3)==1;
     }
 
     static String formatarValor(double salarioPretendido) {
